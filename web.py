@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from waitress import serve
 
 app = Flask(__name__)
@@ -18,7 +18,8 @@ def db():
 
 @app.route("/tcyang", methods=["GET", "POST"])
 def tcyang():
-    now = str(datetime.now())
+    tz = timezone(timedelta(hours=+8))
+    now = str(datetime.now(tz))
     user = request.values.get("nick")
     return render_template("tcyang.html", datetime=now, name=user)
 
